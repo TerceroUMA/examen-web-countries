@@ -144,6 +144,7 @@
     "no-unused-vars": "warn",
     "no-undef": [
       "warn"
-    ]
+    ],
+    "react/jsx-max-props-per-line": ["error", { "maximum": 1, "when": "always" }]
   }
 }

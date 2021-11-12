@@ -32,7 +32,8 @@ export const Home = () => {
   return (
     <div>
       <h1>Home Screen</h1>
-      <div className="g-signin2" data-onsuccess="onSignIn" >
+      <div className="g-signin2"
+        data-onsuccess="onSignIn" >
 
       </div>
       <button onClick={onSignIn} >Ver datos</button>
