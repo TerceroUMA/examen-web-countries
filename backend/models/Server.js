@@ -26,13 +26,14 @@ class Server {
 
     // Lectura y parseo del body
     this.app.use( express.json() );
+    this.app.use( express.urlencoded({ extended: true }) ); // parses application/x-www-form-urlencoded
 
   }
 
   routes() {
 
-    /* this.app.use( '/api/auth', require( './routes/auth' ) ); */
-    /* this.app.use( '/api/events', require( './routes/events' ) ); */
+    this.app.use( '/api/auth', require( '../routes/auth' ) );
+
   }
 
   listen() {
