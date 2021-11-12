@@ -4,8 +4,7 @@ const Usuario = require( '../models/Usuario' );
 
 const crearUsuario = async ( req = express.request, res ) => {
 
-  // TODO: Controlar que me envien los datos
-  const { nombre, email, password } = req.body;
+  const { nombre, email, password, confPassword } = req.body;
 
 
   try {
@@ -20,6 +19,13 @@ const crearUsuario = async ( req = express.request, res ) => {
         msg: 'Ya existe ese usuario'
       });
 
+    } else if ( password !== confPassword ) {
+
+      return res.status( 400 ).json({
+        ok: false,
+        msg: 'Las contraseñas no coinciden'
+      });
+
     }
 
     const usuarioNuevo = new Usuario({ nombre, email, password });
@@ -31,7 +37,7 @@ const crearUsuario = async ( req = express.request, res ) => {
 
     return res.status( 201 ).json({
       ok: true,
-      msg: 'Creado'
+      msg: 'Usuario creado satisfactoriamente'
     });
 
   } catch ( error ) {
@@ -45,7 +51,51 @@ const crearUsuario = async ( req = express.request, res ) => {
 
 };
 
+const iniciarSesion = async ( req = express.request, res ) => {
+
+  const { email, password } = req.body;
+
+  try {
+
+    const usuario = await Usuario.findOne({ email: email });
+
+    if ( !usuario ) {
+
+      return res.status( 400 ).json({
+        ok: false,
+        msg: 'El usuario con ese email no existe'
+      });
+
+    }
+
+    const validPassword = bcrypt.compareSync( password, usuario.password );
+
+    if ( !validPassword ) {
+
+      return res.status( 400 ).json({
+        ok: false,
+        msg: 'Contraseña incorrecta'
+      });
+
+    }
+
+    return res.status( 200 ).json({
+      ok: true,
+      msg: 'Inicio de sesión exitoso'
+    });
+
+  } catch ( error ) {
+
+    return res.status( 400 ).json({
+      ok: false,
+      msg: 'Error inesperado'
+    });
+
+  }
+
+};
 
 module.exports = {
-  crearUsuario
+  crearUsuario,
+  iniciarSesion
 };
