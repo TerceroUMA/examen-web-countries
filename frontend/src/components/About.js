@@ -1,24 +1,28 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { pruebaTypes } from '../types/pruebaTypes'
+import { pruebaTypes } from '../types/pruebaTypes';
 
-export const About = () => {    const dispatch = useDispatch();
-    dispatch({
-        type: pruebaTypes.pruebaOn
-    });
+export const About = () => {
 
-    const handleSubmit = (e) => {
+  const dispatch = useDispatch();
+  dispatch({
+    type: pruebaTypes.pruebaOn
+  });
 
-    };
+  const handleSubmit = ( e ) => {
 
-    return (
-        <div>
-            <h1>About Screen</h1>
-            <form onSubmit={handleSubmit}>
-                <input type="text" />
-                <button> Iniciar sesion</button>
-            </form>
-        </div>
-    );
+    console.log( '' );
+
+  };
+
+  return (
+    <div>
+      <h1>About Screen</h1>
+      <form onSubmit={handleSubmit}>
+        <input type="text" />
+        <button> Iniciar sesion</button>
+      </form>
+    </div>
+  );
 
 };

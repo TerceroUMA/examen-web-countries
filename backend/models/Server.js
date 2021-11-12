@@ -1,4 +1,3 @@
-const path = require( 'path' );
 const express = require( 'express' );
 const cors = require( 'cors' );
 const { dbConnection } = require( '../database/config' );
@@ -23,7 +22,7 @@ class Server {
     this.app.use( cors() );
 
     // Directorio público
-    this.app.use( express.static( path.join( __dirname, '../frontend/build' ) ) );
+    this.app.use( express.static( 'public' ) );
 
     // Lectura y parseo del body
     this.app.use( express.json() );

@@ -3,5 +3,5 @@ import { pruebaReducer } from './pruebaReducer';
 
 
 export const rootReducer = combineReducers({
-    prueba: pruebaReducer
+  prueba: pruebaReducer
 });
