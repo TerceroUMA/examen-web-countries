@@ -1,42 +1,51 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { fetchSinToken } from '../helpers/fetch';
 import { pruebaTypes } from '../types/pruebaTypes';
 
 export const Home = () => {
 
-  const dispatch = useDispatch();
+  const [countries, setCountries] = useState([]);
+  const [hayDatos, setHayDatos] = useState( false );
 
-  dispatch({
-    type: pruebaTypes.pruebaOf
-  });
+  useEffect( () => {
 
-  const onSignIn = ( ) => {
+    fetchSinToken( 'countries' )
+      .then( response => response.json() )
+      .then( data => {
 
-    // gapi viene de script del html de google
-    // eslint-disable-next-line no-undef
-    const auth2 = gapi.auth2.init();
-    if ( auth2.isSignedIn.get() ) {
+        setCountries( data );
+        setHayDatos( true );
+        console.log( data );
 
-      const profile = auth2.currentUser.get().getBasicProfile();
-      console.log( 'ID: ' + profile.getId() );
-      console.log( 'Full Name: ' + profile.getName() );
-      console.log( 'Given Name: ' + profile.getGivenName() );
-      console.log( 'Family Name: ' + profile.getFamilyName() );
-      console.log( 'Image URL: ' + profile.getImageUrl() );
-      console.log( 'Email: ' + profile.getEmail() );
+      });
 
-    }
+  }, []);
 
-  };
+
+  if ( !hayDatos ) {
+
+    return <div>Cargando...</div>;
+
+  }
 
   return (
     <div>
-      <h1>Home Screen</h1>
-      <div className="g-signin2"
-        data-onsuccess="onSignIn" >
+      <h1>Countries</h1>
 
-      </div>
-      <button onClick={onSignIn} >Ver datos</button>
+      {
+        // eslint-disable-next-line react/display-name
+        countries.map( country => {
+
+          return (
+            <div key={country.uuid}
+              style={{ display: 'flex', justifyContent: 'flex-start' }}>
+              <p><strong>Nombre del pais:</strong> <a href={`/countries/${country.uuid}`}> {country.name}</a>, <strong>numcode:</strong>{country.numcode}</p>
+            </div>
+          );
+
+        })
+      }
     </div>
   );
 
